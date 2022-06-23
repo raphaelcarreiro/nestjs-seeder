@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    volumes:
+      - ./.docker/mongo/mongodata:/mongodata
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: hubb2b
+    ports:
+      - '27017:27017'
