@@ -35,7 +35,6 @@ export class OrderSeeder extends SeederAbstract<OrderEntity> {
 
   protected async store(entities: OrderEntity[]): Promise<void> {
     let cont = 1;
-
     const total = entities.length;
 
     for (const entity of entities) {
