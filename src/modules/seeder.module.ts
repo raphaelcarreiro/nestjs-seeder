@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LocationStockEntity } from 'src/database/entities/typeorm/location-stock.entity';
+import { OrderPayment } from 'src/database/entities/typeorm/order-payment.entity';
+import { OrderProduct } from 'src/database/entities/typeorm/order-product.entity';
+import { OrderStatus } from 'src/database/entities/typeorm/order-status.entity';
 import { OrderEntity } from 'src/database/entities/typeorm/order.entity';
 import { StockReserveEntity } from 'src/database/entities/typeorm/stock-reserve.entity';
 import { LocationStockSchema } from 'src/database/schemas/mongoose/location-stock.schema';
@@ -17,6 +20,9 @@ import { StockReserveSeeder } from 'src/seeders/stock-reserve.seeder';
       LocationStockEntity,
       StockReserveEntity,
       OrderEntity,
+      OrderPayment,
+      OrderProduct,
+      OrderStatus,
     ]),
     MongooseModule.forFeature([
       { name: 'LocationStockSchema', schema: LocationStockSchema },

@@ -3,25 +3,53 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export type OrderDocument = Order & Document;
 
+type Payment = {
+  codePayment: string;
+};
+
+type Product = {
+  sequential: number;
+  sku: string;
+  kitSkuName: string;
+  kitQuantity: number;
+  value: number;
+  quantity: number;
+  metaSkuId: number;
+};
+
+type OrderStatus = {
+  status: number;
+  receiptNumber: string;
+  observation: string;
+  cancellationReason: string;
+  createdAt: Date;
+};
+
 @Schema({ collection: 'orders' })
 export class Order {
   @Prop()
-  orderId: string;
+  id: string;
 
   @Prop()
-  total: string;
+  value: number;
 
   @Prop()
-  locationNotifiedAt: Date;
+  legacyStoreId: number;
 
   @Prop()
-  isLocationNotified: boolean;
+  legacyLocationId: number;
+
+  @Prop({ default: null })
+  locationNotifiedAt: Date | null;
 
   @Prop()
-  storeId: number;
+  payments: Payment[];
 
   @Prop()
-  locationId: number;
+  products: Product[];
+
+  @Prop()
+  orderStatus: OrderStatus[];
 
   @Prop()
   createdAt: Date;
