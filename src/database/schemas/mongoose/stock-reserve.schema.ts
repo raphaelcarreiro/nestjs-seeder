@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export type StockReserveDocument = StockReserve & Document;
 
-@Schema({ collection: 'stock_reserves' })
+@Schema({ collection: 'stockReserves' })
 export class StockReserve {
   @Prop()
   sku: string;

@@ -41,7 +41,7 @@ export class OrderSeeder extends SeederAbstract<OrderEntity> {
       console.log(`Importando ${cont} de ${total}`);
 
       await this.mongooseModel.create({
-        id: entity.id,
+        storeOrderId: entity.id,
         value: entity.total,
         locationNotifiedAt: entity.sentToLocationAt,
         legacyStoreId: entity.storeId,
@@ -50,21 +50,21 @@ export class OrderSeeder extends SeederAbstract<OrderEntity> {
         products: entity.products.map((product) => ({
           kitQuantity: product.kitQuantity,
           kitSkuName: product.kitSkuName,
-          metaSkuId: product.metaSkuId,
+          metaSkuId: product.metaSkuId || null,
           quantity: product.amount,
           sequential: product.sequential,
           sku: product.sku,
-          value: product.price,
+          value: +product.price,
         })),
         payments: entity.payments.map((payment) => ({
-          codePayment: payment.paymentType,
+          paymentCode: payment.paymentType,
         })),
         orderStatus: entity.status.map((status) => ({
-          status: status.orderStatusId,
-          cancellationReason: status.cancelmentReason,
+          orderStatusId: status.orderStatusId,
+          receiptNumber: status.receiptNumber || null,
+          detail: status.observation || null,
+          cancellationReason: status.cancelmentReason || null,
           createdAt: status.createdAt,
-          observation: status.observation,
-          receiptNumber: status.receiptNumber,
         })),
       });
 

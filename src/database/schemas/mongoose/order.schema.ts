@@ -10,17 +10,17 @@ type Payment = {
 type Product = {
   sequential: number;
   sku: string;
-  kitSkuName: string;
-  kitQuantity: number;
+  kitSkuName: string | null;
+  kitQuantity: number | null;
   value: number;
   quantity: number;
-  metaSkuId: number;
+  metaSkuId: number | null;
 };
 
 type OrderStatus = {
-  status: number;
+  paymentCode: number;
   receiptNumber: string;
-  observation: string;
+  detail: string;
   cancellationReason: string;
   createdAt: Date;
 };
@@ -28,7 +28,7 @@ type OrderStatus = {
 @Schema({ collection: 'orders' })
 export class Order {
   @Prop()
-  id: string;
+  storeOrderId: string;
 
   @Prop()
   value: number;

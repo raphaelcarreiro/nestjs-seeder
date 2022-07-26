@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose';
 
 export type LocationStockDocument = LocationStock & mongoose.Document;
 
-@Schema({ collection: 'location_stocks' })
+@Schema({ collection: 'locationStocks' })
 export class LocationStock {
   @Prop()
   sku: string;
