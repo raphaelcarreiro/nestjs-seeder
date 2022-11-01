@@ -2,25 +2,26 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Model } from 'mongoose';
+import { CreditLimitEntity } from 'src/database/entities/typeorm/credit-limit.entity';
 import { LocationStockEntity } from 'src/database/entities/typeorm/location-stock.entity';
 import { AccountDocument } from 'src/database/schemas/mongoose/account.schema';
-import { LocationStockDocument } from 'src/database/schemas/mongoose/location-stock.schema';
+import { CreditLimitDocument } from 'src/database/schemas/mongoose/credit-limit.schemas';
 import { Repository } from 'typeorm';
 import { SeederAbstract } from './abstract/seeder-abstract';
 
 @Injectable()
-export class LocationStockSeeder extends SeederAbstract<LocationStockEntity> {
+export class CreditLimitSeeder extends SeederAbstract<CreditLimitEntity> {
   private sellerId: number;
 
   constructor(
-    @InjectRepository(LocationStockEntity)
-    private readonly repository: Repository<LocationStockEntity>,
+    @InjectRepository(CreditLimitEntity)
+    private readonly repository: Repository<CreditLimitEntity>,
 
     @InjectModel('AccountSchema')
     private readonly account: Model<AccountDocument>,
 
     @InjectModel('LocationStockSchema')
-    private readonly model: Model<LocationStockDocument>,
+    private readonly model: Model<CreditLimitDocument>,
   ) {
     super();
 
@@ -35,12 +36,12 @@ export class LocationStockSeeder extends SeederAbstract<LocationStockEntity> {
     await this.store(entities);
   }
 
-  protected async find(): Promise<LocationStockEntity[]> {
+  protected async find(): Promise<CreditLimitEntity[]> {
     console.log('Buscando registros...');
 
     return await this.repository.find({
       where: {
-        siteId: parseInt(process.env.LEGACY_LOCATION_ID),
+        legacyLocationId: this.sellerId,
       },
     });
   }

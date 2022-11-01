@@ -1,21 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
+import { Account } from './account.schema';
 
 export type LocationStockDocument = LocationStock & mongoose.Document;
 
 @Schema({ collection: 'locationStocks' })
 export class LocationStock {
-  @Prop()
+  @Prop({ required: true })
   sku: string;
 
-  @Prop()
-  legacyLocationId: number;
+  @Prop({ required: true, type: mongoose.Types.ObjectId, ref: Account.name })
+  accountLocationId: string;
 
-  @Prop()
+  @Prop({ required: true })
   total: number;
-
-  @Prop()
-  reserved: number;
 
   @Prop()
   virtual: number;

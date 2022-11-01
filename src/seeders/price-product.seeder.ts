@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Model } from 'mongoose';
 import { PriceProductEntity } from 'src/database/entities/typeorm/price-product.entity';
-import { PriceProductDocument } from 'src/database/schemas/mongoose/price-product.schema';
+import { PricePerMethod } from 'src/database/schemas/mongoose/price-per-method.schema';
 import { Repository } from 'typeorm';
 import { SeederAbstract } from './abstract/seeder-abstract';
 
@@ -14,7 +14,7 @@ export class PriceProductSeeder extends SeederAbstract<PriceProductEntity> {
     private readonly repository: Repository<PriceProductEntity>,
 
     @InjectModel('PriceProductSchema')
-    private readonly model: Model<PriceProductDocument>,
+    private readonly model: Model<PricePerMethod>,
   ) {
     super();
   }
@@ -30,7 +30,11 @@ export class PriceProductSeeder extends SeederAbstract<PriceProductEntity> {
   protected async find(): Promise<PriceProductEntity[]> {
     console.log('Buscando registros...');
 
-    return await this.repository.find();
+    return await this.repository.find({
+      where: {
+        locationId: 100,
+      },
+    });
   }
 
   protected async store(entities: PriceProductEntity[]): Promise<void> {
@@ -42,9 +46,9 @@ export class PriceProductSeeder extends SeederAbstract<PriceProductEntity> {
       console.log(`Importando ${cont} de ${total}`);
 
       await this.model.create({
-        priceId: null,
-        policiePriceId: null,
-        legacyLocationId: entity.locationId,
+        paymentMethodId: null,
+        pricePolicyId: null,
+        accountLocationId: entity.locationId,
         sku: entity.sku,
         price: entity.price,
       });
