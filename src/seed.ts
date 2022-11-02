@@ -1,8 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { CreditLimitReserveSeeder } from './seeders/credit-limit-reserve.seeder';
+import { CreditLimitSeeder } from './seeders/credit-limit.seeder';
 import { LocationStockSeeder } from './seeders/location-stock.seeder';
-import { OrderSeeder } from './seeders/order.seeder';
-import { PriceProductSeeder } from './seeders/price-product.seeder';
-import { PriceSeeder } from './seeders/price.seeder';
+import { PaymentMethodSeeder } from './seeders/payment-method.seeder';
+import { PricePerMethodSeeder } from './seeders/price-per-method.seeder';
 import { StockReserveSeeder } from './seeders/stock-reserve.seeder';
 
 @Injectable()
@@ -14,21 +15,25 @@ export class Seed {
     @Inject(LocationStockSeeder)
     private readonly locationStockSeeder: StockReserveSeeder,
 
-    @Inject(OrderSeeder)
-    private readonly orderSeeder: StockReserveSeeder,
+    @Inject(PaymentMethodSeeder)
+    private readonly paymentMethodSeeder: PaymentMethodSeeder,
 
-    @Inject(PriceSeeder)
-    private readonly priceSeeder: PriceSeeder,
+    @Inject(PricePerMethodSeeder)
+    private readonly pricePerMethodSeeder: PricePerMethodSeeder,
 
-    @Inject(PriceProductSeeder)
-    private readonly priceProductSeeder: PriceProductSeeder,
+    @Inject(CreditLimitSeeder)
+    private readonly creditLimitSeeder: CreditLimitSeeder,
+
+    @Inject(CreditLimitReserveSeeder)
+    private readonly creditLimitReserveSeeder: CreditLimitReserveSeeder,
   ) {}
 
   async handle() {
-    // await this.stockReserveSeeder.execute();
+    // await this.paymentMethodSeeder.execute();
+    // await this.pricePerMethodSeeder.execute();
     // await this.locationStockSeeder.execute();
-    // await this.orderSeeder.execute();
-    await this.priceSeeder.execute();
-    await this.priceProductSeeder.execute();
+    // await this.stockReserveSeeder.execute();
+    // await this.creditLimitSeeder.execute();
+    await this.creditLimitReserveSeeder.execute();
   }
 }

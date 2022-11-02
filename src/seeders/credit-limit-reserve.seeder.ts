@@ -2,29 +2,30 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Model } from 'mongoose';
-import { StockReserveEntity } from 'src/database/entities/typeorm/stock-reserve.entity';
+import { CreditLimitReserveEntity } from 'src/database/entities/typeorm/credit-limit-reserve.entity';
 import {
   Account,
   AccountDocument,
 } from 'src/database/schemas/mongoose/account.schema';
+import { CreditLimitReserveDocument } from 'src/database/schemas/mongoose/credit-limit-reserve.schema';
 import { StockReserveDocument } from 'src/database/schemas/mongoose/stock-reserve.schema';
 import { Repository } from 'typeorm';
 import { SeederAbstract } from './abstract/seeder-abstract';
 
 @Injectable()
-export class StockReserveSeeder extends SeederAbstract<StockReserveEntity> {
+export class CreditLimitReserveSeeder extends SeederAbstract<CreditLimitReserveEntity> {
   private sellerId: number;
   private storeId: number;
 
   constructor(
-    @InjectRepository(StockReserveEntity)
-    private readonly typeormRepository: Repository<StockReserveEntity>,
+    @InjectRepository(CreditLimitReserveEntity)
+    private readonly typeormRepository: Repository<CreditLimitReserveEntity>,
 
     @InjectModel('AccountSchema')
     private readonly account: Model<AccountDocument>,
 
-    @InjectModel('StockReserveSchema')
-    private readonly mongooseModel: Model<StockReserveDocument>,
+    @InjectModel('CreditLimitReserveSchema')
+    private readonly mongooseModel: Model<CreditLimitReserveDocument>,
   ) {
     super();
 
@@ -40,31 +41,31 @@ export class StockReserveSeeder extends SeederAbstract<StockReserveEntity> {
     await this.store(entities);
   }
 
-  protected async find(): Promise<StockReserveEntity[]> {
+  protected async find(): Promise<CreditLimitReserveEntity[]> {
     console.log('Buscando registros...');
 
     return await this.typeormRepository.find({ where: { status: 0 } });
   }
 
-  protected async store(entities: StockReserveEntity[]): Promise<void> {
+  protected async store(entities: CreditLimitReserveEntity[]): Promise<void> {
     const seller = await this.getSeller();
     const store = await this.getStore();
 
     let cont = 1;
+
     const total = entities.length;
 
     for (const entity of entities) {
       console.log(`Importando ${cont} de ${total}`);
 
       await this.mongooseModel.create({
-        sku: entity.productId,
-        quantity: entity.amount,
-        orderId: entity.orderId,
-        accountLocationId: seller._id,
-        accountStoreId: store._id,
-        status: entity.status,
-        kitId: entity.kitId,
+        cnpj: entity.cnpj,
+        usedCreditLimit: entity.usedCreditLimit,
+        storeOrderId: entity.orderId,
         reservedAt: entity.reservedAt,
+        accountStoreId: store._id,
+        accountLocationId: seller._id,
+        status: entity.status,
       });
 
       cont = cont + 1;

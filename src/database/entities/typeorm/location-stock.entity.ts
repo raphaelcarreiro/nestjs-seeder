@@ -42,8 +42,4 @@ export class LocationStockEntity {
 
   @Column({ name: 'DataIntegracao' })
   dataIntegracao: Date;
-
-  constructor(payload: LocationStockEntity) {
-    Object.assign(this, payload);
-  }
 }

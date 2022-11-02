@@ -4,7 +4,7 @@ import { Account } from './account.schema';
 
 export type CreditLimitDocument = CreditLimit & Document;
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, collection: 'creditLimits' })
 export class CreditLimit {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,

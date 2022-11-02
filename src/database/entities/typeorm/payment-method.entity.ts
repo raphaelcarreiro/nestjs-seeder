@@ -1,9 +1,9 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('TabelaPreco')
-export class PriceEntity {
+@Entity({ name: 'TabelaPreco' })
+export class PaymentMethodEntity {
   @PrimaryGeneratedColumn({ name: 'TabelaPrecoId' })
-  id: string;
+  id: number;
 
   @Column({ name: 'Codigo' })
   code: string;

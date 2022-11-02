@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'Produto_Site_TabelaPreco' })
-export class PriceProductEntity {
+export class PricePerMethodEntity {
   @PrimaryColumn({ name: 'TabelaPrecoId' })
   priceId: number;
 

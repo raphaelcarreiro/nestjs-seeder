@@ -2,28 +2,24 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'LimiteCredito' })
 export class CreditLimitEntity {
-  @PrimaryColumn('SiteId')
+  @PrimaryColumn({ name: 'SiteId' })
   legacyLocationId: number;
 
-  @PrimaryColumn('CNPJ')
+  @PrimaryColumn({ name: 'CNPJ' })
   documentNumber: string;
 
-  @Column('DataInsercao')
+  @Column({ name: 'DataInsercao' })
   createdAt: Date;
 
-  @Column('DataAtualizacao')
+  @Column({ name: 'DataAtualizacao' })
   updatedAt: Date;
 
-  @Column('ValorTotal')
+  @Column({ name: 'ValorTotal' })
   value: number;
 
-  @Column('ValorUtilizado')
+  @Column({ name: 'ValorUtilizado' })
   usedValue: number;
 
-  @Column('ValorDisponivel')
+  @Column({ name: 'ValorDisponivel' })
   availableValue: number;
-
-  constructor(payload: CreditLimitEntity) {
-    Object.assign(this, payload);
-  }
 }

@@ -26,13 +26,4 @@ export class PricePerMethod {
 
 const PricePerMethodSchema = SchemaFactory.createForClass(PricePerMethod);
 
-PricePerMethodSchema.index({ sku: 1 });
-PricePerMethodSchema.index({ accountLocationId: 1, pricePolicyId: 1 });
-PricePerMethodSchema.index({
-  accountLocationId: 1,
-  paymentMethodId: 1,
-  sku: 1,
-  pricePolicyId: 1,
-});
-
 export { PricePerMethodSchema };

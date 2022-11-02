@@ -19,6 +19,4 @@ export class PaymentMethod {
 
 const PaymentMethodSchema = SchemaFactory.createForClass(PaymentMethod);
 
-PaymentMethodSchema.index({ code: 1 });
-
 export { PaymentMethodSchema };
