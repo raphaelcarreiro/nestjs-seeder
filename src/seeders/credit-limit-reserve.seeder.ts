@@ -41,7 +41,7 @@ export class CreditLimitReserveSeeder extends SeederAbstract<CreditLimitReserveE
   }
 
   protected async find(): Promise<CreditLimitReserveEntity[]> {
-    console.log('Buscando registros...');
+    console.log('Buscando registros de reserva de limite de crédito...');
 
     return await this.typeormRepository.find({ where: { status: 0 } });
   }

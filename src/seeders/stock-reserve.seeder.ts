@@ -41,7 +41,7 @@ export class StockReserveSeeder extends SeederAbstract<StockReserveEntity> {
   }
 
   protected async find(): Promise<StockReserveEntity[]> {
-    console.log('Buscando registros...');
+    console.log('Buscando registros de reserva de estoque...');
 
     return await this.typeormRepository.find({ where: { status: 0 } });
   }

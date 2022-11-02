@@ -39,7 +39,7 @@ export class CreditLimitSeeder extends SeederAbstract<CreditLimitEntity> {
   }
 
   protected async find(): Promise<CreditLimitEntity[]> {
-    console.log('Buscando registros...');
+    console.log('Buscando registros de limite de crédito...');
 
     return await this.repository.find({
       where: {
