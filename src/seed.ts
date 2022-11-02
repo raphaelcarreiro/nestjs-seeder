@@ -32,8 +32,8 @@ export class Seed {
     // await this.paymentMethodSeeder.execute();
     // await this.pricePerMethodSeeder.execute();
     // await this.locationStockSeeder.execute();
-    // await this.stockReserveSeeder.execute();
-    // await this.creditLimitSeeder.execute();
+    await this.stockReserveSeeder.execute();
+    await this.creditLimitSeeder.execute();
     await this.creditLimitReserveSeeder.execute();
   }
 }
