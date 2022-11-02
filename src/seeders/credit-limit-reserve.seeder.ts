@@ -8,7 +8,6 @@ import {
   AccountDocument,
 } from 'src/database/schemas/mongoose/account.schema';
 import { CreditLimitReserveDocument } from 'src/database/schemas/mongoose/credit-limit-reserve.schema';
-import { StockReserveDocument } from 'src/database/schemas/mongoose/stock-reserve.schema';
 import { Repository } from 'typeorm';
 import { SeederAbstract } from './abstract/seeder-abstract';
 
