@@ -6,7 +6,7 @@ const greenColor = '\x1b[32m';
 
 async function bootstrap() {
   NestFactory.createApplicationContext(AppModule)
-    .then((context) => {
+    .then(context => {
       const seeder = context.get(Seed);
 
       seeder
@@ -14,10 +14,10 @@ async function bootstrap() {
         .then(() => {
           console.log(`${greenColor}Seed completed`);
         })
-        .catch((err) => console.error(err))
+        .catch(err => console.error(err))
         .finally(() => context.close());
     })
-    .catch((err) => {
+    .catch(err => {
       throw err;
     });
 }

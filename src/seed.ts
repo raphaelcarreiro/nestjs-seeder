@@ -13,7 +13,7 @@ export class Seed {
     private readonly stockReserveSeeder: StockReserveSeeder,
 
     @Inject(LocationStockSeeder)
-    private readonly locationStockSeeder: StockReserveSeeder,
+    private readonly locationStockSeeder: LocationStockSeeder,
 
     @Inject(PaymentMethodSeeder)
     private readonly paymentMethodSeeder: PaymentMethodSeeder,
@@ -30,10 +30,10 @@ export class Seed {
 
   async handle() {
     // await this.paymentMethodSeeder.execute();
-    // await this.pricePerMethodSeeder.execute();
+    await this.pricePerMethodSeeder.execute();
     // await this.locationStockSeeder.execute();
-    await this.stockReserveSeeder.execute();
-    await this.creditLimitSeeder.execute();
-    await this.creditLimitReserveSeeder.execute();
+    // await this.stockReserveSeeder.execute();
+    // await this.creditLimitSeeder.execute();
+    // await this.creditLimitReserveSeeder.execute();
   }
 }
