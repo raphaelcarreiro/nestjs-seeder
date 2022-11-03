@@ -30,13 +30,13 @@ export class LocationStockSeeder extends SeederAbstract<LocationStockEntity> {
   async execute() {
     const entities = await this.find();
 
-    console.log(`${entities.length} encontrados`);
+    console.log(LocationStockSeeder.name, `: ${entities.length} records`);
 
     await this.store(entities);
   }
 
   protected async find(): Promise<LocationStockEntity[]> {
-    console.log('Buscando registros...');
+    console.log(LocationStockSeeder.name, ': fetching');
 
     return await this.repository.find({
       where: {
@@ -46,29 +46,26 @@ export class LocationStockSeeder extends SeederAbstract<LocationStockEntity> {
   }
 
   protected async store(entities: LocationStockEntity[]): Promise<void> {
-    let cont = 1;
-
-    const total = entities.length;
-
     const seller = await this.account
       .findOne({
         legacyCodigoDistribuidor: this.sellerId,
       })
       .exec();
 
-    for (const entity of entities) {
-      console.log(`Importando ${cont} de ${total}`);
+    const payload = entities.map(entity => ({
+      sku: entity.sku,
+      accountLocationId: seller._id,
+      total: entity.total,
+      // virtual: entity.virtual,
+      virtual: 0,
+      createdAt: entity.dataIntegracao,
+      updatedAt: entity.dataUltimaImportacao,
+    }));
 
-      await this.model.create({
-        sku: entity.sku,
-        accountLocationId: seller._id,
-        total: entity.total,
-        virtual: entity.virtual,
-        createdAt: entity.dataIntegracao,
-        updatedAt: entity.dataUltimaImportacao,
-      });
+    console.log(LocationStockSeeder.name, ': inserting');
 
-      cont = cont + 1;
-    }
+    await this.model.insertMany(payload);
+
+    console.log(LocationStockSeeder.name, ': completed\n');
   }
 }

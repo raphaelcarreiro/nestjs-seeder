@@ -3,10 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Model } from 'mongoose';
 import { StockReserveEntity } from 'src/database/entities/typeorm/stock-reserve.entity';
-import {
-  Account,
-  AccountDocument,
-} from 'src/database/schemas/mongoose/account.schema';
+import { Account, AccountDocument } from 'src/database/schemas/mongoose/account.schema';
 import { StockReserveDocument } from 'src/database/schemas/mongoose/stock-reserve.schema';
 import { Repository } from 'typeorm';
 import { SeederAbstract } from './abstract/seeder-abstract';
@@ -35,13 +32,13 @@ export class StockReserveSeeder extends SeederAbstract<StockReserveEntity> {
   async execute() {
     const entities = await this.find();
 
-    console.log(`${entities.length} encontrados`);
+    console.log(StockReserveSeeder.name, `: ${entities.length} records`);
 
     await this.store(entities);
   }
 
   protected async find(): Promise<StockReserveEntity[]> {
-    console.log('Buscando registros de reserva de estoque...');
+    console.log(StockReserveSeeder.name, ': fetching');
 
     return await this.typeormRepository.find({ where: { status: 0 } });
   }
@@ -50,25 +47,22 @@ export class StockReserveSeeder extends SeederAbstract<StockReserveEntity> {
     const seller = await this.getSeller();
     const store = await this.getStore();
 
-    let cont = 1;
-    const total = entities.length;
+    const payload = entities.map(entity => ({
+      sku: entity.productId,
+      quantity: entity.amount,
+      orderId: entity.orderId,
+      accountLocationId: seller._id,
+      accountStoreId: store._id,
+      status: entity.status,
+      kitId: entity.kitId,
+      reservedAt: entity.reservedAt,
+    }));
 
-    for (const entity of entities) {
-      console.log(`Importando ${cont} de ${total}`);
+    console.log(StockReserveSeeder.name, ': inserting');
 
-      await this.mongooseModel.create({
-        sku: entity.productId,
-        quantity: entity.amount,
-        orderId: entity.orderId,
-        accountLocationId: seller._id,
-        accountStoreId: store._id,
-        status: entity.status,
-        kitId: entity.kitId,
-        reservedAt: entity.reservedAt,
-      });
+    await this.mongooseModel.insertMany(payload);
 
-      cont = cont + 1;
-    }
+    console.log(StockReserveSeeder.name, ': completed\n');
   }
 
   private async getSeller(): Promise<Account> {

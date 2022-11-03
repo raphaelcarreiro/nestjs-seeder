@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Model } from 'mongoose';
 import { PaymentMethodEntity } from 'src/database/entities/typeorm/payment-method.entity';
 import { PaymentMethodDocument } from 'src/database/schemas/mongoose/payment-method.schema';
-import { Repository } from 'typeorm';
+import { In, Not, Repository } from 'typeorm';
 import { SeederAbstract } from './abstract/seeder-abstract';
 
 @Injectable()
@@ -22,32 +22,34 @@ export class PaymentMethodSeeder extends SeederAbstract<PaymentMethodEntity> {
   async execute() {
     const entities = await this.find();
 
-    console.log(`${entities.length} encontrados`);
+    console.log(PaymentMethodSeeder.name, `: ${entities.length} records`);
 
     await this.store(entities);
   }
 
   protected async find(): Promise<PaymentMethodEntity[]> {
-    console.log('Buscando registros...');
+    const mongoPaymentMethods = await this.model.find();
 
-    return await this.repository.find();
+    console.log(PaymentMethodSeeder.name, ': fetching');
+
+    return await this.repository.find({
+      where: {
+        code: Not(In(mongoPaymentMethods.map(item => item.code))),
+      },
+    });
   }
 
   protected async store(entities: PaymentMethodEntity[]): Promise<void> {
-    let cont = 1;
+    const payload = entities.map(entity => ({
+      code: entity.code,
+      name: entity.name,
+      isMain: entity.isMain,
+    }));
 
-    const total = entities.length;
+    console.log(PaymentMethodSeeder.name, ': inserting');
 
-    for (const entity of entities) {
-      console.log(`Importando ${cont} de ${total}`);
+    await this.model.insertMany(payload);
 
-      await this.model.create({
-        code: entity.code,
-        name: entity.name,
-        isMain: entity.isMain,
-      });
-
-      cont = cont + 1;
-    }
+    console.log(PaymentMethodSeeder.name, ': completed\n');
   }
 }

@@ -3,10 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Model } from 'mongoose';
 import { CreditLimitEntity } from 'src/database/entities/typeorm/credit-limit.entity';
-import {
-  Account,
-  AccountDocument,
-} from 'src/database/schemas/mongoose/account.schema';
+import { Account, AccountDocument } from 'src/database/schemas/mongoose/account.schema';
 import { CreditLimitDocument } from 'src/database/schemas/mongoose/credit-limit.schemas';
 import { Repository } from 'typeorm';
 import { SeederAbstract } from './abstract/seeder-abstract';
@@ -33,13 +30,13 @@ export class CreditLimitSeeder extends SeederAbstract<CreditLimitEntity> {
   async execute() {
     const entities = await this.find();
 
-    console.log(`${entities.length} encontrados`);
+    console.log(CreditLimitSeeder.name, `: ${entities.length} records`);
 
     await this.store(entities);
   }
 
   protected async find(): Promise<CreditLimitEntity[]> {
-    console.log('Buscando registros de limite de crédito...');
+    console.log(CreditLimitSeeder.name, ': fetching');
 
     return await this.repository.find({
       where: {
@@ -51,24 +48,21 @@ export class CreditLimitSeeder extends SeederAbstract<CreditLimitEntity> {
   protected async store(entities: CreditLimitEntity[]): Promise<void> {
     const seller = await this.getSeller();
 
-    let cont = 1;
-    const total = entities.length;
+    const payload = entities.map(entity => ({
+      accountLocationId: seller._id,
+      cnpj: entity.documentNumber,
+      value: entity.value,
+      usedValue: entity.usedValue,
+      availableValue: entity.availableValue,
+      integrationAt: entity.createdAt,
+      origin: 'SELLER',
+    }));
 
-    for (const entity of entities) {
-      console.log(`Importando ${cont} de ${total}`);
+    console.log(CreditLimitSeeder.name, ': inserting');
 
-      await this.model.create({
-        accountLocationId: seller._id,
-        cnpj: entity.documentNumber,
-        value: entity.value,
-        usedValue: entity.usedValue,
-        availableValue: entity.availableValue,
-        integrationAt: entity.createdAt,
-        origin: 'SELLER',
-      });
+    await this.model.insertMany(payload);
 
-      cont = cont + 1;
-    }
+    console.log(CreditLimitSeeder.name, ': completed\n');
   }
 
   private async getSeller(): Promise<Account> {

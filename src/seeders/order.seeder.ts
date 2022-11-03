@@ -47,7 +47,7 @@ export class OrderSeeder extends SeederAbstract<OrderEntity> {
         legacyStoreId: entity.storeId,
         legacyLocationId: entity.locationId,
         createdAt: entity.createdAt,
-        products: entity.products.map((product) => ({
+        products: entity.products.map(product => ({
           kitQuantity: product.kitQuantity,
           kitSkuName: product.kitSkuName,
           metaSkuId: product.metaSkuId || null,
@@ -56,10 +56,10 @@ export class OrderSeeder extends SeederAbstract<OrderEntity> {
           sku: product.sku,
           value: +product.price,
         })),
-        payments: entity.payments.map((payment) => ({
+        payments: entity.payments.map(payment => ({
           paymentCode: payment.paymentType,
         })),
-        orderStatus: entity.status.map((status) => ({
+        orderStatus: entity.status.map(status => ({
           orderStatusId: status.orderStatusId,
           receiptNumber: status.receiptNumber || null,
           detail: status.observation || null,

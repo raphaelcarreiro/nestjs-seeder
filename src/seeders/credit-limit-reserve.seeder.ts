@@ -3,10 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Model } from 'mongoose';
 import { CreditLimitReserveEntity } from 'src/database/entities/typeorm/credit-limit-reserve.entity';
-import {
-  Account,
-  AccountDocument,
-} from 'src/database/schemas/mongoose/account.schema';
+import { Account, AccountDocument } from 'src/database/schemas/mongoose/account.schema';
 import { CreditLimitReserveDocument } from 'src/database/schemas/mongoose/credit-limit-reserve.schema';
 import { Repository } from 'typeorm';
 import { SeederAbstract } from './abstract/seeder-abstract';
@@ -35,13 +32,13 @@ export class CreditLimitReserveSeeder extends SeederAbstract<CreditLimitReserveE
   async execute() {
     const entities = await this.find();
 
-    console.log(`${entities.length} encontrados`);
+    console.log(CreditLimitReserveSeeder.name, `: ${entities.length} records`);
 
     await this.store(entities);
   }
 
   protected async find(): Promise<CreditLimitReserveEntity[]> {
-    console.log('Buscando registros de reserva de limite de crédito...');
+    console.log(CreditLimitReserveSeeder.name, ': fetching');
 
     return await this.typeormRepository.find({ where: { status: 0 } });
   }
@@ -50,25 +47,21 @@ export class CreditLimitReserveSeeder extends SeederAbstract<CreditLimitReserveE
     const seller = await this.getSeller();
     const store = await this.getStore();
 
-    let cont = 1;
+    const payload = entities.map(entity => ({
+      cnpj: entity.cnpj,
+      usedCreditLimit: entity.usedCreditLimit,
+      storeOrderId: entity.orderId,
+      reservedAt: entity.reservedAt,
+      accountStoreId: store._id,
+      accountLocationId: seller._id,
+      status: entity.status,
+    }));
 
-    const total = entities.length;
+    console.log(CreditLimitReserveSeeder.name, ': inserting');
 
-    for (const entity of entities) {
-      console.log(`Importando ${cont} de ${total}`);
+    await this.mongooseModel.insertMany(payload);
 
-      await this.mongooseModel.create({
-        cnpj: entity.cnpj,
-        usedCreditLimit: entity.usedCreditLimit,
-        storeOrderId: entity.orderId,
-        reservedAt: entity.reservedAt,
-        accountStoreId: store._id,
-        accountLocationId: seller._id,
-        status: entity.status,
-      });
-
-      cont = cont + 1;
-    }
+    console.log(CreditLimitReserveSeeder.name, ': completed\n');
   }
 
   private async getSeller(): Promise<Account> {
