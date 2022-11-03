@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { PaymentMethodEntity } from './payment-method.entity';
 
 @Entity({ name: 'Produto_Site_TabelaPreco' })
 export class PricePerMethodEntity {
@@ -13,4 +14,7 @@ export class PricePerMethodEntity {
 
   @Column({ name: 'Preco' })
   price: number;
+
+  @ManyToOne(() => PaymentMethodEntity, paymentMethod => paymentMethod.pricePerMethods)
+  paymentMethod: PaymentMethodEntity;
 }

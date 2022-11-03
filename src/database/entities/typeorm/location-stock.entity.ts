@@ -22,8 +22,10 @@ export class LocationStockEntity {
   @Column({ name: 'PreVenda' })
   preVenda: number;
 
+  /*
   @Column({ name: 'Virtual' })
   virtual: number;
+  */
 
   @Column({ name: 'DataUltimaImportacao' })
   dataUltimaImportacao: Date;

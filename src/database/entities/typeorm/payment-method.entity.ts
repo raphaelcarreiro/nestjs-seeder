@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { PricePerMethodEntity } from './price-per-method.entity';
 
 @Entity({ name: 'TabelaPreco' })
 export class PaymentMethodEntity {
@@ -13,4 +14,7 @@ export class PaymentMethodEntity {
 
   @Column({ name: 'Principal' })
   isMain: boolean;
+
+  @OneToMany(() => PricePerMethodEntity, pricePerMethod => pricePerMethod.paymentMethod)
+  pricePerMethods: PricePerMethodEntity[];
 }
