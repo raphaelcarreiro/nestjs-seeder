@@ -1,4 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { AccountSellerSeeder } from './seeders/account-seller.seeder';
+import { AccountStoreSeeder } from './seeders/account-store.seeder';
 import { CreditLimitReserveSeeder } from './seeders/credit-limit-reserve.seeder';
 import { CreditLimitSeeder } from './seeders/credit-limit.seeder';
 import { LocationStockSeeder } from './seeders/location-stock.seeder';
@@ -26,14 +28,22 @@ export class Seed {
 
     @Inject(CreditLimitReserveSeeder)
     private readonly creditLimitReserveSeeder: CreditLimitReserveSeeder,
+
+    @Inject(AccountStoreSeeder)
+    private readonly accountStoreSeeder: AccountStoreSeeder,
+
+    @Inject(AccountSellerSeeder)
+    private readonly accountSellerSeeder: AccountSellerSeeder,
   ) {}
 
   async handle() {
     // await this.paymentMethodSeeder.execute();
-    await this.pricePerMethodSeeder.execute();
+    // await this.pricePerMethodSeeder.execute();
     // await this.locationStockSeeder.execute();
     // await this.stockReserveSeeder.execute();
     // await this.creditLimitSeeder.execute();
     // await this.creditLimitReserveSeeder.execute();
+    await this.accountStoreSeeder.execute();
+    await this.accountSellerSeeder.execute();
   }
 }

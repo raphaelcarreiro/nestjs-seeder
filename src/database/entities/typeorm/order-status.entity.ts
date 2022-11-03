@@ -26,7 +26,7 @@ export class OrderStatus {
   @Column({ name: 'DataInsercao' })
   createdAt: Date;
 
-  @ManyToOne(() => OrderEntity, (order) => order.status)
+  @ManyToOne(() => OrderEntity, order => order.status)
   @JoinColumn({
     name: 'PedidoId',
     referencedColumnName: 'id',

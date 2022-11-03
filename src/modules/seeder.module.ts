@@ -26,6 +26,15 @@ import { PricePerMethodEntity } from 'src/database/entities/typeorm/price-per-me
 import { AccountSchema } from 'src/database/schemas/mongoose/account.schema';
 import { CreditLimitEntity } from 'src/database/entities/typeorm/credit-limit.entity';
 import { CreditLimitReserveEntity } from 'src/database/entities/typeorm/credit-limit-reserve.entity';
+import { StoreEntity } from 'src/database/entities/typeorm/store.entity';
+import { SellerEntity } from 'src/database/entities/typeorm/seller.entity';
+import { StoreCredentialEntity } from 'src/database/entities/typeorm/store-credential.entity';
+import { AccountSellerSeeder } from 'src/seeders/account-seller.seeder';
+import { AccountStoreSeeder } from 'src/seeders/account-store.seeder';
+import { SellerStoreEntity } from 'src/database/entities/typeorm/seller-store.entity';
+import { ApiEntity } from 'src/database/entities/typeorm/api.entity';
+import { UserApiEntity } from 'src/database/entities/typeorm/user-api.entity';
+import { AuthSchema } from 'src/database/schemas/mongoose/auth.schema';
 
 @Module({
   imports: [
@@ -40,6 +49,12 @@ import { CreditLimitReserveEntity } from 'src/database/entities/typeorm/credit-l
       PricePerMethodEntity,
       CreditLimitEntity,
       CreditLimitReserveEntity,
+      StoreEntity,
+      SellerEntity,
+      StoreCredentialEntity,
+      SellerStoreEntity,
+      ApiEntity,
+      UserApiEntity,
     ]),
     MongooseModule.forFeature([
       { name: 'LocationStockSchema', schema: LocationStockSchema },
@@ -50,6 +65,7 @@ import { CreditLimitReserveEntity } from 'src/database/entities/typeorm/credit-l
       { name: 'CreditLimitSchema', schema: CreditLimitSchema },
       { name: 'CreditLimitReserveSchema', schema: CreditLimitReserveSchema },
       { name: 'AccountSchema', schema: AccountSchema },
+      { name: 'AuthSchema', schema: AuthSchema },
     ]),
   ],
   providers: [
@@ -60,6 +76,8 @@ import { CreditLimitReserveEntity } from 'src/database/entities/typeorm/credit-l
     PricePerMethodSeeder,
     CreditLimitSeeder,
     CreditLimitReserveSeeder,
+    AccountSellerSeeder,
+    AccountStoreSeeder,
   ],
   exports: [
     StockReserveSeeder,
@@ -69,6 +87,8 @@ import { CreditLimitReserveEntity } from 'src/database/entities/typeorm/credit-l
     PricePerMethodSeeder,
     CreditLimitSeeder,
     CreditLimitReserveSeeder,
+    AccountSellerSeeder,
+    AccountStoreSeeder,
   ],
 })
 export class SeederModule {}

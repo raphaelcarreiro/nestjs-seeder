@@ -1,11 +1,11 @@
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export type AccountDocument = Account & Document;
 
-@Schema({ collection: 'accounts' })
+@Schema({ collection: 'accounts', timestamps: true })
 export class Account {
-  _id: string;
+  _id: Types.ObjectId;
 
   @Prop()
   legacySiteId: number;
@@ -19,10 +19,10 @@ export class Account {
   @Prop()
   accountIDs: string[];
 
-  @Prop({ required: true })
+  @Prop()
   accountType: string;
 
-  @Prop({ required: true })
+  @Prop()
   siteUrl: string;
 
   @Prop()
@@ -37,10 +37,10 @@ export class Account {
   @Prop()
   description: string;
 
-  @Prop({ required: true })
+  @Prop()
   active: boolean;
 
-  @Prop({ required: true })
+  @Prop()
   name: string;
 
   @Prop()

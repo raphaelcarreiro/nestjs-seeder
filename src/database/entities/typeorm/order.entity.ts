@@ -26,17 +26,17 @@ export class OrderEntity {
   @Column({ name: 'StatusEnvioDistribuidor' })
   statusSentToLocation: boolean;
 
-  @OneToMany(() => OrderStatus, (orderStatus) => orderStatus.order, {
+  @OneToMany(() => OrderStatus, orderStatus => orderStatus.order, {
     eager: true,
   })
   status: OrderStatus[];
 
-  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order, {
+  @OneToMany(() => OrderProduct, orderProduct => orderProduct.order, {
     eager: true,
   })
   products: OrderProduct[];
 
-  @OneToMany(() => OrderPayment, (payment) => payment.order, {
+  @OneToMany(() => OrderPayment, payment => payment.order, {
     eager: true,
   })
   payments: OrderPayment[];

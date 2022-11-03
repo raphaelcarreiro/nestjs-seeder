@@ -59,7 +59,7 @@ export class PricePerMethodSeeder extends SeederAbstract<PricePerMethodEntity> {
       const paymentMethod = this.getPaymentMethod(entity.code);
 
       return {
-        paymentMethodId: paymentMethod?._id ?? null,
+        paymentMethodId: paymentMethod._id,
         accountLocationId: seller._id,
         sku: entity.Sku,
         price: entity.Preco,

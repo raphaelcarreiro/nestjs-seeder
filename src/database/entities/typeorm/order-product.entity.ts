@@ -27,7 +27,7 @@ export class OrderProduct {
   @Column({ name: 'MetaSkuId' })
   metaSkuId: number;
 
-  @ManyToOne(() => OrderEntity, (order) => order.products)
+  @ManyToOne(() => OrderEntity, order => order.products)
   @JoinColumn({
     name: 'PedidoId',
     referencedColumnName: 'id',
