@@ -16,7 +16,7 @@ export class UserApiEntity {
   status: boolean;
 
   @Column({ name: 'SiteId' })
-  storeId: number;
+  sellerId: number;
 
   @ManyToMany(() => ApiEntity, api => api.userApi, { eager: true })
   @JoinTable({

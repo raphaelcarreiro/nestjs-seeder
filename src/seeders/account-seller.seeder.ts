@@ -31,7 +31,7 @@ export class AccountSellerSeeder extends SeederAbstract<SellerEntity> {
   protected async find(): Promise<SellerEntity[]> {
     console.log(AccountSellerSeeder.name, ': fetching');
 
-    const mongoSellers = await this.accountModel.find({ accountType: 'account' }).exec();
+    const mongoSellers = await this.accountModel.find({ accountType: 'seller' }).exec();
 
     return await this.sellerRepository.find({
       where: {

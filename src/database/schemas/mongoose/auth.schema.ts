@@ -4,17 +4,17 @@ import { Account } from './account.schema';
 
 export type AuthDocument = Auth & Document;
 
-@Schema()
+@Schema({ collection: 'auths' })
 export class Auth {
   _id: Types.ObjectId;
 
-  @Prop({ required: true })
+  @Prop()
   username: string;
 
-  @Prop({ required: true })
+  @Prop()
   password: string;
 
-  @Prop({ required: true })
+  @Prop()
   type: string;
 
   @Prop()
@@ -26,7 +26,6 @@ export class Auth {
   @Prop({
     type: Types.ObjectId,
     ref: Account.name,
-    required: true,
   })
   accountId: Types.ObjectId;
 

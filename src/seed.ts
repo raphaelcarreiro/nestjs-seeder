@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AccountSellerSeeder } from './seeders/account-seller.seeder';
 import { AccountStoreSeeder } from './seeders/account-store.seeder';
+import { AuthSeeder } from './seeders/auth-seeder';
 import { CreditLimitReserveSeeder } from './seeders/credit-limit-reserve.seeder';
 import { CreditLimitSeeder } from './seeders/credit-limit.seeder';
 import { LocationStockSeeder } from './seeders/location-stock.seeder';
@@ -34,6 +35,9 @@ export class Seed {
 
     @Inject(AccountSellerSeeder)
     private readonly accountSellerSeeder: AccountSellerSeeder,
+
+    @Inject(AuthSeeder)
+    private readonly authSeeder: AuthSeeder,
   ) {}
 
   async handle() {
@@ -45,5 +49,6 @@ export class Seed {
     // await this.creditLimitReserveSeeder.execute();
     await this.accountStoreSeeder.execute();
     await this.accountSellerSeeder.execute();
+    await this.authSeeder.execute();
   }
 }

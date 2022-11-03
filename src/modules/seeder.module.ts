@@ -35,6 +35,7 @@ import { SellerStoreEntity } from 'src/database/entities/typeorm/seller-store.en
 import { ApiEntity } from 'src/database/entities/typeorm/api.entity';
 import { UserApiEntity } from 'src/database/entities/typeorm/user-api.entity';
 import { AuthSchema } from 'src/database/schemas/mongoose/auth.schema';
+import { AuthSeeder } from 'src/seeders/auth-seeder';
 
 @Module({
   imports: [
@@ -78,6 +79,7 @@ import { AuthSchema } from 'src/database/schemas/mongoose/auth.schema';
     CreditLimitReserveSeeder,
     AccountSellerSeeder,
     AccountStoreSeeder,
+    AuthSeeder,
   ],
   exports: [
     StockReserveSeeder,
@@ -89,6 +91,7 @@ import { AuthSchema } from 'src/database/schemas/mongoose/auth.schema';
     CreditLimitReserveSeeder,
     AccountSellerSeeder,
     AccountStoreSeeder,
+    AuthSeeder,
   ],
 })
 export class SeederModule {}
